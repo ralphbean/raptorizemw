@@ -26,6 +26,7 @@ install_requires=[
     "TurboGears2 >= 2.1.2",
     "Mako",
     "raptorizemw",
+    "tg.devtools",
     ]
 
 if sys.version_info[:2] == (2,4):
