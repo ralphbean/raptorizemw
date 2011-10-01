@@ -25,6 +25,7 @@ testpkgs=['WebTest >= 1.2.3',
 install_requires=[
     "TurboGears2 >= 2.1.2",
     "Mako",
+    "raptorizemw",
     ]
 
 if sys.version_info[:2] == (2,4):

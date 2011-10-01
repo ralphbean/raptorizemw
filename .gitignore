@@ -3,3 +3,5 @@
 *.swp
 *.egg*
 *.db*
+*.pdf
+examples/tg2-raptorized/data

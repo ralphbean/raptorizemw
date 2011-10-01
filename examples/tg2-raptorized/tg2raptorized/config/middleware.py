@@ -4,6 +4,7 @@
 from tg2raptorized.config.app_cfg import base_config
 from tg2raptorized.config.environment import load_environment
 
+import raptorizemw
 
 __all__ = ['make_app']
 
@@ -35,5 +36,6 @@ def make_app(global_conf, full_stack=True, **app_conf):
     app = make_base_app(global_conf, full_stack=True, **app_conf)
     
     # Wrap your base TurboGears 2 application with custom middleware here
+    app = raptorizemw.make_middleware(app)
     
     return app
