@@ -3,7 +3,7 @@ import BeautifulSoup
 import mimetypes
 import os
 import webob
-import wsgiref
+import wsgiref.util
 
 
 class ResourcesApp(object):
@@ -12,7 +12,7 @@ class ResourcesApp(object):
         self.res_max_age = res_max_age
         self.here = os.sep.join(__file__.split(os.sep)[:-1])
         resource_files = os.listdir(os.sep.join([self.here, 'resources']))
-        self.prefix = '/'.join(['', __name__, 'resources'])
+        self.prefix = '/raptorizemw/resources'
         self.served_files = [
             '/'.join([self.prefix, f]) for f in resource_files
         ]
@@ -53,7 +53,7 @@ class RaptorizeMiddleware(object):
 
     def __call__(self, environ, start_response):
         __app__ = None
-        if self.serve_resources and __name__ in environ['PATH_INFO']:
+        if self.serve_resources and 'raptorizemw' in environ['PATH_INFO']:
             __app__ = self.resources_app
         else:
             __app__ = self.app
