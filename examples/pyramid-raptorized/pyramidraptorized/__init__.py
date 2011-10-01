@@ -3,6 +3,8 @@ from sqlalchemy import engine_from_config
 
 from pyramidraptorized.models import initialize_sql
 
+import raptorizemw
+
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
@@ -14,5 +16,7 @@ def main(global_config, **settings):
     config.add_view('pyramidraptorized.views.my_view',
                     route_name='home',
                     renderer='templates/mytemplate.pt')
-    return config.make_wsgi_app()
+    app = config.make_wsgi_app()
+    app = raptorizemw.make_middleware(app)
+    return app
 
