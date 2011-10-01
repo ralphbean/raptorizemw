@@ -5,3 +5,4 @@
 *.db*
 *.pdf
 examples/tg2-raptorized/data
+dist
