@@ -119,10 +119,10 @@ class RaptorizeMiddleware(object):
             ])
         payload_js.setString(
             """
-            $(document).ready(function() {
+            $(window).load(function() {
                 $('body').raptorize({
-                    "enterOn" : "timer",
-                    'delayTime' : 2000
+                    enterOn: "timer",
+                    delayTime: 2000,
                 });
             });
             """
