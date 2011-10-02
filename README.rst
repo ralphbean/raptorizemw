@@ -1,8 +1,8 @@
 `Raptorize` WSGI Middleware
 ===========================
 
-Because every WSGI app is better with a raptor.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Fact:  every WSGI app is better with a velociraptor.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. image:: https://github.com/ralphbean/raptorizemw/raw/master/raptorizemw/resources/raptor.png
 
