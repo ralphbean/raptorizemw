@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from raptorize import make_middleware
+from raptorizemw import make_middleware
 import weberror.errormiddleware
 
 if __name__ == '__main__':

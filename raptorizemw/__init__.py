@@ -1,2 +1,3 @@
 #
-from raptorize import *
+import resources
+from middleware import *
