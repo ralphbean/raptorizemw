@@ -5,7 +5,7 @@ f = open('README.rst')
 long_description = f.read()
 f.close()
 
-version = '0.1.3'
+version = '0.1.4'
 
 setup(name='raptorizemw',
       version=version,
