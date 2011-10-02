@@ -6,6 +6,10 @@ import wsgiref.util
 
 
 class ResourcesApp(object):
+    """ Modified from the resources app found in ToscaWidgets2.
+
+    Serve resources for RaptorizeMiddleware.
+    """
     def __init__(self, bufsize=1024, res_max_age=86400):
         self.bufsize = bufsize
         self.res_max_age = res_max_age
@@ -20,6 +24,8 @@ class ResourcesApp(object):
         return path in self.served_files
 
     def __call__(self, environ, start_response):
+        """ Process a request. """
+
         req = webob.Request(environ)
 
         if not self.will_serve(environ['PATH_INFO']):

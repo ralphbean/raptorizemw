@@ -6,12 +6,25 @@ import raptorizemw.resources
 
 
 class RaptorizeMiddleware(object):
+    """ WSGI middleware that throws a raptor on your page. """
+
     def __init__(self, app, serve_resources=True, **kw):
         self.app = app
         self.serve_resources = serve_resources
         self.resources_app = raptorizemw.resources.ResourcesApp()
 
     def __call__(self, environ, start_response):
+        """ Process a request.
+
+        Do one of two things::
+
+            - If this request is for a raptor resource (image, sound, js
+              code).  Ignore the next WSGI layer in the call chain and just
+              serve the resource myself.
+            - Call the next layer in the WSGI call chain and retrieve its
+              output.  Determine if I should actually raptorize this request
+              and if so, insert our magic javascript in the <head> tag.
+        """
         __app__ = None
         if self.serve_resources and 'raptorizemw' in environ['PATH_INFO']:
             __app__ = self.resources_app
@@ -27,6 +40,7 @@ class RaptorizeMiddleware(object):
         return resp(environ, start_response)
 
     def should_raptorize(self, req, resp):
+        """ Determine if this request should be raptorized.  Boolean. """
 
         if resp.status != "200 OK":
             return False
@@ -40,6 +54,14 @@ class RaptorizeMiddleware(object):
         return True
 
     def raptorize(self, resp):
+        """ Raptorize this response!
+
+        Insert javascript into the <head> tag.
+
+        If jquery is already included, make sure not to stomp on it by
+        re-including it.
+        """
+
         soup = BeautifulSoup.BeautifulSoup(resp.body)
 
         if not soup.html:
@@ -55,7 +77,6 @@ class RaptorizeMiddleware(object):
                 ('src', prefix + '/js_helper.js'),
             ])
         soup.html.head.insert(len(soup.html.head), js_helper)
-
 
         payload_js = BeautifulSoup.Tag(
             soup, "script", attrs=[
@@ -82,5 +103,6 @@ class RaptorizeMiddleware(object):
 
 
 def make_middleware(app=None, **kw):
+    """ Given an app, return that app wrapped in RaptorizeMiddleware """
     app = RaptorizeMiddleware(app, **kw)
     return app
