@@ -6,7 +6,7 @@ Because every WSGI app is better with a raptor.
 
 .. image:: https://github.com/ralphbean/raptorizemw/raw/master/raptorizemw/resources/raptor.png
 
-Insallation
+Installation
 -----------
 
 You could install it yourself with `pip`::
