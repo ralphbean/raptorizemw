@@ -7,7 +7,7 @@ Fact:  every WSGI app is better with a velociraptor.
 .. image:: https://github.com/ralphbean/raptorizemw/raw/master/raptorizemw/resources/raptor.png
 
 Installation
------------
+------------
 
 You could install it yourself with `pip`::
 
