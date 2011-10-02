@@ -96,14 +96,16 @@ class RaptorizeMiddleware(object):
             ])
         soup.html.head.insert(len(soup.html.head), js_helper)
 
-        # TODO -- figure out how to *not* include jquery if its already there
+        # Only include jquery if it hasn't been included yet.
         cdn_base = 'http://ajax.googleapis.com/ajax/libs'
         jquery_url = cdn_base + '/jquery/1.4.3/jquery.min.js'
         jquery_dynamic_include = BeautifulSoup.Tag(
             soup, "script", attrs=[
                 ('type', 'text/javascript'),
-                ('src', jquery_url),
             ])
+        jquery_dynamic_include.setString(
+            "!window.jQuery && include_js('%s');" % jquery_url
+        )
         soup.html.head.insert(len(soup.html.head), jquery_dynamic_include)
 
         raptorize_js = BeautifulSoup.Tag(
