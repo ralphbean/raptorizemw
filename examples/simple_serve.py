@@ -9,7 +9,11 @@ if __name__ == '__main__':
         return ["<html><body>This is a simple app.</body></html>"]
 
     # Raptorize!
-    app = make_middleware(app)
+    app = make_middleware(
+        app,
+        delayTime=500,
+        enterOn='konami-code',
+    )
 
     # Debugging information!
     app = weberror.errormiddleware.ErrorMiddleware(app, debug=True)

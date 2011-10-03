@@ -39,6 +39,39 @@ line with the following::
     app = raptorizemw.make_middleware(app)
     return app
 
+Configuration
+-------------
+
+``make_middleware(...)`` and ``RaptorizeMiddleware.__init__(...)`` both take
+a number of configuration keywords:
+
+ - ``enterOn`` can be one of two actions: 'timer' or 'konami-code'.  If 'timer'
+   is specified, then the raptor is shown on page load.  If 'konami-code', then
+   the raptor is shown if the page-viewing user enters the sacred sequence.
+   Default is 'timer'.
+ - ``delayTime`` must be an ``int`` and is the number of milliseconds until the
+   raptor is shown.  Default is 2000.
+ - ``random_chance`` must be a float between 0.0 and 1.0 representing a 'percent
+   chance' to load the raptor.  A value of 1.0 means the raptor will be injected
+   every time; a value of 0.0 means it will never be injected; a value of 0.5
+   will result in a 50% chance of raptors.
+ - ``only_on_april_1st`` must be a ``bool`` value that will restrict raptors
+   only to April Fool's day.
+
+For example::
+
+    app = raptorizemw.make_middleware(
+        app,
+        enterOn='konami-code',
+        delayTime=500,
+        random_chance=0.5,
+        only_on_april_1st=True
+    )
+
+will result in 50% of pages loaded with raptors on April Fool's Day only.  These
+raptors will only be displayed if the user also enters the konami code, and
+quite quickly, after only a half a second.
+
 Credits
 -------
 
@@ -51,4 +84,4 @@ Get the source
 --------------
 
 The code and bug tracker live over at http://github.com/ralphbean/raptorizemw.
-Please fork and improve!  We need configurable options.  :)
+Please fork and improve!

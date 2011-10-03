@@ -1,5 +1,7 @@
 
 import BeautifulSoup
+import datetime
+import random
 import webob
 
 import raptorizemw.resources
@@ -8,10 +10,25 @@ import raptorizemw.resources
 class RaptorizeMiddleware(object):
     """ WSGI middleware that throws a raptor on your page. """
 
-    def __init__(self, app, serve_resources=True, **kw):
+    def __init__(self, app, serve_resources=True, random_chance=1.0,
+                 only_on_april_1st=False, enterOn='timer', delayTime=2000,
+                 **kw):
+        """ Configuration arguments are documented in README.rst
+
+        Also at http://pypi.python.org/pypi/raptorizemw
+        """
+
+        if not enterOn in ['timer', 'konami-code']:
+            raise ValueError("enterOn must be either 'timer' or 'konami-code'")
+
+        self.resources_app = raptorizemw.resources.ResourcesApp()
+
         self.app = app
         self.serve_resources = serve_resources
-        self.resources_app = raptorizemw.resources.ResourcesApp()
+        self.random_chance = float(random_chance)
+        self.only_on_april_1st = bool(only_on_april_1st)
+        self.enterOn = enterOn
+        self.delayTime = int(delayTime)
 
     def __call__(self, environ, start_response):
         """ Process a request.
@@ -49,7 +66,13 @@ class RaptorizeMiddleware(object):
         if not 'html' in content_type:
             return False
 
-        # TODO -- Add other criteria here.  Path-based, configurable excepts?
+        if random.random() > self.random_chance:
+            return False
+
+        if self.only_on_april_1st:
+            now = datetime.datetime.now()
+            if now.month != 20 and now.day != 1:
+                return False
 
         return True
 
@@ -88,13 +111,17 @@ class RaptorizeMiddleware(object):
                 include_js("%s", function() {
                     $(window).load(function() {
                         $('body').raptorize({
-                            enterOn: "timer",
-                            delayTime: 2000,
+                            enterOn: "%s",
+                            delayTime: %i,
                         });
                     });
                 })
             });
-            """ % (prefix + '/jquery.raptorize.1.0.js')
+            """ % (
+                prefix + '/jquery.raptorize.1.0.js',
+                self.enterOn,
+                self.delayTime
+            )
         )
         soup.html.head.insert(len(soup.html.head), payload_js)
 
@@ -104,5 +131,5 @@ class RaptorizeMiddleware(object):
 
 def make_middleware(app=None, *args, **kw):
     """ Given an app, return that app wrapped in RaptorizeMiddleware """
-    app = RaptorizeMiddleware(app, **kw)
+    app = RaptorizeMiddleware(app, *args, **kw)
     return app
