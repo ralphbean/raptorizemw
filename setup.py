@@ -32,6 +32,6 @@ setup(name='raptorizemw',
       ],
       entry_points="""
       [paste.filter_app_factory]
-      middleware = raptorizemw.raptorize:make_middleware
+      middleware = raptorizemw:make_middleware
       """,
       )

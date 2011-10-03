@@ -102,7 +102,7 @@ class RaptorizeMiddleware(object):
         return resp
 
 
-def make_middleware(app=None, **kw):
+def make_middleware(app=None, *args, **kw):
     """ Given an app, return that app wrapped in RaptorizeMiddleware """
     app = RaptorizeMiddleware(app, **kw)
     return app
