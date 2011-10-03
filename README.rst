@@ -54,9 +54,9 @@ a number of configuration keywords:
  - ``random_chance`` must be a float between 0.0 and 1.0 representing a 'percent
    chance' to load the raptor.  A value of 1.0 means the raptor will be injected
    every time; a value of 0.0 means it will never be injected; a value of 0.5
-   will result in a 50% chance of raptors.
+   will result in a 50% chance of raptors.  Default is 1.0.
  - ``only_on_april_1st`` must be a ``bool`` value that will restrict raptors
-   only to April Fool's day.
+   only to April Fool's day.  Default is ``False``.
 
 For example::
 
