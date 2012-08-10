@@ -28,7 +28,7 @@ setup(name='raptorizemw',
       install_requires=[
           'webob',
           'weberror',
-          'BeautifulSoup',
+          'BeautifulSoup<4.0a1',
       ],
       entry_points="""
       [paste.filter_app_factory]
