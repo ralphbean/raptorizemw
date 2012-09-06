@@ -39,6 +39,30 @@ line with the following::
     app = raptorizemw.make_middleware(app)
     return app
 
+Usage in a PasteDeploy pipeline
+-------------------------------
+
+You can also add raptors into your PasteDeploy pipeline like so::
+
+    [pipeline:main]
+    pipeline = 
+        raptorize
+        my-app
+
+    [filter:raptorize]
+    use = egg:raptorizemw
+    enterOn = konami-code
+    delayTime = 3000
+    random_chance = 0.25
+    only_on_april_1st = True
+
+    [app:myapp]
+    ...
+
+Essentially, you're able to specify ``raportizemw`` as a filter within your
+WSGI pipeline, and configure options accordingly as per the `Configuration`_
+section below.
+
 Configuration
 -------------
 
@@ -55,8 +79,11 @@ a number of configuration keywords:
    chance' to load the raptor.  A value of 1.0 means the raptor will be injected
    every time; a value of 0.0 means it will never be injected; a value of 0.5
    will result in a 50% chance of raptors.  Default is 1.0.
- - ``only_on_april_1st`` must be a ``bool`` value that will restrict raptors
-   only to April Fool's day.  Default is ``False``.
+ - ``only_on_april_1st`` should be a ``bool`` value that will restrict raptors
+   only to April Fool's day. The configuration will coerce Boolean-like strings
+   (such as ``t``, ``true``, ``y``, ``yes``, ``on`` and ``1``) into a suitable
+   format if provided in this manner (such as through a text-based pipeline
+   configuration). Default is ``False``.
 
 For example::
 
