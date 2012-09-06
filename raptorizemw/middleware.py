@@ -7,6 +7,22 @@ import webob
 import raptorizemw.resources
 
 
+truthy = frozenset(('t', 'true', 'y', 'yes', 'on', '1'))
+
+def asbool(s):
+    """ Return the boolean value ``True`` if the case-lowered value of string
+    input ``s`` is any of ``t``, ``true``, ``y``, ``on``, or ``1``, otherwise
+    return the boolean value ``False``.  If ``s`` is the value ``None``,
+    return ``False``.  If ``s`` is already one of the boolean values ``True``
+    or ``False``, return it."""
+    if s is None:
+        return False
+    if isinstance(s, bool):
+        return s
+    s = str(s).strip()
+    return s.lower() in truthy
+
+
 class RaptorizeMiddleware(object):
     """ WSGI middleware that throws a raptor on your page. """
 
@@ -26,7 +42,7 @@ class RaptorizeMiddleware(object):
         self.app = app
         self.serve_resources = serve_resources
         self.random_chance = float(random_chance)
-        self.only_on_april_1st = bool(only_on_april_1st)
+        self.only_on_april_1st = asbool(only_on_april_1st)
         self.enterOn = enterOn
         self.delayTime = int(delayTime)
 
