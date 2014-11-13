@@ -16,18 +16,6 @@ You could install it yourself with `pip`::
 Or you could add ``raptorizemw`` to the list of required packages in the
 ``setup.py`` file of your project.
 
-Usage in TurboGears 2
----------------------
-
-Simply edit ``myapp/config/middleware.py`` and add the following to
-``make_app(...)``::
-
-    # Wrap your base TurboGears 2 application with custom middleware here
-    import raptorizemw
-    app = raptorizemw.make_middleware(app)
-
-Restart your app, but watch out for raptors!
-
 Usage in Pyramid
 ----------------
 
@@ -38,6 +26,30 @@ line with the following::
     app = config.make_wsgi_app()
     app = raptorizemw.make_middleware(app)
     return app
+
+Restart your app, but watch out for raptors!
+
+Usage in Flask
+--------------
+
+Edit ``yourapp.py`` and replace the ``app.run()`` line with the following::
+
+    import raptorizemw
+    app.wsgi_app = raptorizemw.make_middleware(app.wsgi_app)
+    app.run()
+
+ZOMG!
+
+Usage in TurboGears 2
+---------------------
+
+Simply edit ``myapp/config/middleware.py`` and add the following to
+``make_app(...)``::
+
+    # Wrap your base TurboGears 2 application with custom middleware here
+    import raptorizemw
+    app = raptorizemw.make_middleware(app)
+
 
 Usage in a PasteDeploy pipeline
 -------------------------------
